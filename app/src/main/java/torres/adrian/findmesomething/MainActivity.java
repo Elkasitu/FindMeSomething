@@ -1,28 +1,37 @@
 package torres.adrian.findmesomething;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
 public class MainActivity extends Activity
 {
 	private String[] findablesArray = {"Restaurants", "Banks/ATMs", "Night Shops",
 									   "Night Clubs", "Parks", "Parkings", "Public Transport"};
 
-	private ListView findableListView;
-	private ArrayAdapter arrayAdapter;
+	private RecyclerView findableView;
+	private RecyclerView.Adapter findableAdapter;
+	private RecyclerView.LayoutManager findableLayoutManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		findableView = (RecyclerView) findViewById(R.id.findables_list);
 
-		findableListView = (ListView) findViewById(R.id.findableList);
+		// Content of RecyclerView is static
+		findableView.setHasFixedSize(true);
 
-		arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, findablesArray);
-		findableListView.setAdapter(arrayAdapter);
+		// Use a linear layout manager
+		findableLayoutManager = new LinearLayoutManager(this);
+		findableView.setLayoutManager(findableLayoutManager);
+
+		// Add a data-set to the adapter, and attach the adapter to the RecyclerView for display
+		findableAdapter = new FindableAdapter(findablesArray);
+		findableView.setAdapter(findableAdapter);
+
+
 	}
 }
